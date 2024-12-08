@@ -1,0 +1,48 @@
+/* LoginPage.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f7fc;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.user-profile {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #1976d2;
+    color: white;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* Additional custom styles if needed */
+body {
+    font-family: 'Roboto', sans-serif; /* Google Fonts */
+}
+
+input, button {
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:focus {
+    outline: none;
+}

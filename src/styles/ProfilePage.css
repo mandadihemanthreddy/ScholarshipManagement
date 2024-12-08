@@ -1,0 +1,47 @@
+/* ProfilePage.css */
+.profile-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.profile-card {
+  width: 350px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.profile-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.profile-card-content p {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.profile-card-content strong {
+  color: #000;
+}
+
+.loading-text,
+.error-message {
+  font-size: 1.2rem;
+  color: #ff3333;
+  text-align: center;
+}
+
+.profile-card p:last-child {
+  margin-bottom: 0;
+}

@@ -1,0 +1,29 @@
+/* src/styles/DashboardPage.css */
+.dashboard-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .dashboard-links {
+    margin-top: 30px;
+  }
+  
+  .dashboard-links ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .dashboard-links li {
+    margin: 10px 0;
+  }
+  
+  .dashboard-links a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
+  }
+  
+  .dashboard-links a:hover {
+    text-decoration: underline;
+  }
+  

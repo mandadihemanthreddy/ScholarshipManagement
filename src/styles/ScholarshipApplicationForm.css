@@ -1,0 +1,124 @@
+/* Container Styling */
+.application-form-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.application-form-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Section Headers */
+.application-form-container h3 {
+  color: #444;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
+.application-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.application-form-container section {
+  margin-bottom: 20px;
+}
+
+.application-form-container input[type="text"],
+.application-form-container input[type="date"],
+.application-form-container input[type="file"],
+.application-form-container select,
+.application-form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.application-form-container input:focus,
+.application-form-container select:focus,
+.application-form-container textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Text Area Styling */
+.application-form-container textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Labels for File Uploads */
+.application-form-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Submit Button */
+.application-form-container button[type="submit"] {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.application-form-container button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .application-form-container {
+    padding: 15px;
+  }
+
+  .application-form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .application-form-container input[type="text"],
+  .application-form-container input[type="date"],
+  .application-form-container input[type="file"],
+  .application-form-container select,
+  .application-form-container textarea {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .application-form-container button[type="submit"] {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
+
+/* Placeholder Text Styling */
+.application-form-container input::placeholder,
+.application-form-container textarea::placeholder {
+  color: #999;
+}
+
+/* Optional: Styling for the "Upload document" text */
+.application-form-container p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}

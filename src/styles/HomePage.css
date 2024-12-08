@@ -1,0 +1,131 @@
+.home-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li {
+  padding: 10px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Scrolling message styling */
+.scrolling-message {
+  margin: 15px 0;
+  padding: 10px;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: scroll-left 10s linear infinite, color-change 5s ease-in-out infinite;
+}
+
+/* Scrolling animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Color-changing effect */
+@keyframes color-change {
+  0%, 100% {
+    color: #ff6347; /* Tomato */
+  }
+  33% {
+    color: #1e90ff; /* Dodger Blue */
+  }
+  66% {
+    color: #32cd32; /* Lime Green */
+  }
+}
+
+.welcome-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.welcome-section h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.welcome-section p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+.scholarship-info {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.scholarship-info h2 {
+  font-size: 2rem;
+  color: #555;
+}
+
+.scholarship-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.scholarship-info li {
+  font-size: 1.1rem;
+  color: #333;
+  padding: 8px;
+  background-color: #f4f4f4;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scholarship-info li:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar li {
+    margin-bottom: 10px;
+  }
+
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+
+  .scholarship-info h2 {
+    font-size: 1.8rem;
+  }
+}
