@@ -20,7 +20,7 @@ const ManageScholarships = () => {
 
   // Fetch scholarships on component mount
   useEffect(() => {
-    axios.get('http://localhost:8080/api/admin/scholarships')
+    axios.get('https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships')
       .then(response => {
         setScholarships(response.data);
       })
@@ -34,7 +34,7 @@ const ManageScholarships = () => {
   const handleSaveScholarship = () => {
     if (currentScholarship.id) {
       // Update scholarship
-      axios.put(`http://localhost:8080/api/admin/scholarships/${currentScholarship.id}`, currentScholarship)
+      axios.put(`https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships/${currentScholarship.id}`, currentScholarship)
         .then(response => {
           setScholarships(scholarships.map(scholarship => 
             scholarship.id === currentScholarship.id ? response.data : scholarship
@@ -48,7 +48,7 @@ const ManageScholarships = () => {
         });
     } else {
       // Add new scholarship
-      axios.post('http://localhost:8080/api/admin/scholarships', currentScholarship)
+      axios.post('https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships', currentScholarship)
         .then(response => {
           setScholarships([...scholarships, response.data]);
           setIsEditing(false);
@@ -70,7 +70,7 @@ const ManageScholarships = () => {
 
   // Handle deleting a scholarship
   const handleDeleteScholarship = (id) => {
-    axios.delete(`http://localhost:8080/api/admin/scholarships/${id}`)
+    axios.delete(`https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships/${id}`)
       .then(() => {
         setScholarships(scholarships.filter(scholarship => scholarship.id !== id));
       })
