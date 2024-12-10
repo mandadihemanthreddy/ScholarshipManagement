@@ -36,7 +36,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchNewScholarships = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/admin/scholarships");
+        const response = await axios.get("https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships");
         const scholarships = response.data;
   
         // Sort scholarships by ID in descending order to show the newest ones
