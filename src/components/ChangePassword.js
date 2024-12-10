@@ -11,7 +11,7 @@ const ChangePassword = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/users/change-password',
+                'https://scholarshipmanagementbackend-production.up.railway.app/api/users/change-password',
                 { username, currentPassword, newPassword },
                 { headers: { 'Content-Type': 'application/json' } }
             );
