@@ -98,7 +98,7 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/signup', formData);
+      const response = await axios.post('https://scholarshipmanagementbackend-production.up.railway.app/api/users/signup', formData);
       alert(response.data); // Show success message on successful signup
       setErrorMessage(''); // Clear any previous error message
 
