@@ -36,7 +36,7 @@ const LoginPage = ({ open, setOpen }) => {
   const fetchCaptcha = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://scholarshipmanagementbackend-production.up.railway.app/api/captcha');
+      const response = await axios.get('https://scholarshipmanagementbackend-production.up.railway.app/api/captcha');
       const { num1, num2, answer } = response.data;
       setCaptchaQuestion(`${num1} + ${num2}`);
       setCaptchaAnswer(answer);
