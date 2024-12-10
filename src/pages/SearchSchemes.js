@@ -9,7 +9,7 @@ const SearchSchemes = () => {
 
     // Fetch all scholarships once on component mount
     useEffect(() => {
-        axios.get("http://localhost:8080/api/users/scholarships")
+        axios.get("https://scholarshipmanagementbackend-production.up.railway.app/api/users/scholarships")
             .then((response) => {
                 if (Array.isArray(response.data)) {
                     setScholarships(response.data);
