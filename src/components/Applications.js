@@ -9,7 +9,7 @@ const Applications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('/api/scholarship/applications'); // Fetch applications from backend
+        const response = await axios.get('https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/applications'); // Fetch applications from backend
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications:', error);
