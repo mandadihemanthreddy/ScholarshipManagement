@@ -36,7 +36,7 @@ const ScholarshipsPage = () => {
   // Fetch scholarships from the backend
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/users/scholarships")
+      .get("https://scholarshipmanagementbackend-production.up.railway.app//api/users/scholarships")
       .then((response) => {
         if (Array.isArray(response.data)) {
           setScholarships(response.data);
