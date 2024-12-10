@@ -13,7 +13,7 @@ const ManageUsersPage = () => {
 
   // Fetch users on page load
   useEffect(() => {
-    axios.get('http://localhost:8080/api/admin/users')
+    axios.get('https://scholarshipmanagementbackend-production.up.railway.app/api/admin/users')
       .then(response => {
         setUsers(response.data);
       })
@@ -39,7 +39,7 @@ const ManageUsersPage = () => {
     onSubmit: (values) => {
       if (isEditing) {
         // Update user
-        axios.put(`http://localhost:8080/api/admin/users/${selectedUser.id}`, values)
+        axios.put(`https://scholarshipmanagementbackend-production.up.railway.app/api/admin/users/${selectedUser.id}`, values)
           .then(response => {
             const updatedUsers = users.map(user => user.id === response.data.id ? response.data : user);
             setUsers(updatedUsers);
@@ -50,7 +50,7 @@ const ManageUsersPage = () => {
           });
       } else {
         // Add new user
-        axios.post('http://localhost:8080/api/admin/users', values)
+        axios.post('https://scholarshipmanagementbackend-production.up.railway.app/api/admin/users', values)
           .then(response => {
             setUsers([...users, response.data]);
             setOpenDialog(false);
@@ -82,7 +82,7 @@ const ManageUsersPage = () => {
 
   // Handle delete user
   const handleDeleteUser = (userId) => {
-    axios.delete(`http://localhost:8080/api/admin/users/${userId}`)
+    axios.delete(`https://scholarshipmanagementbackend-production.up.railway.app/api/admin/users/${userId}`)
       .then(() => {
         setUsers(users.filter(user => user.id !== userId));
       })
