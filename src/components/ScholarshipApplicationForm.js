@@ -107,7 +107,7 @@ const ScholarshipApplicationForm = () => {
     formData.append("proofOfMerits", proofOfMerits);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/scholarship/apply", formData, {
+      const response = await axios.post("https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/apply", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
