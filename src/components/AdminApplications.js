@@ -34,7 +34,7 @@ const AdminApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/scholarship/applications');
+        const response = await axios.get('https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/applications');
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications:', error);
