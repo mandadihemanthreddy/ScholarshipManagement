@@ -1,204 +1,210 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  CssBaseline,
-  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
   Button,
-} from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import SchoolIcon from "@mui/icons-material/School";
-import HistoryIcon from "@mui/icons-material/History";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { Doughnut } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import axios from "axios";
-import "../styles/UserDashboard.css";
+  Typography,
+  Box,
+  CircularProgress,
+  Snackbar,
+  Alert,
+} from '@mui/material';
 
-const UserDashboard = () => {
+const LoginPage = ({ open, setOpen }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [captcha, setCaptcha] = useState('');
+  const [captchaQuestion, setCaptchaQuestion] = useState('');
+  const [captchaAnswer, setCaptchaAnswer] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const [floatingScholarships, setFloatingScholarships] = useState([]);
-  const [applicationData, setApplicationData] = useState({
-    accepted: 3,
-    pending: 2,
-    rejected: 1,
-  });
 
-  // Fetch newly added scholarships from the backend
   useEffect(() => {
-    const fetchNewScholarships = async () => {
-      try {
-        const response = await axios.get("https://scholarshipmanagementbackend-production.up.railway.app/api/admin/scholarships");
-        const scholarships = response.data;
-  
-        // Sort scholarships by ID in descending order to show the newest ones
-        const sortedScholarships = scholarships.sort((a, b) => b.id - a.id);
-        setFloatingScholarships(sortedScholarships);
-      } catch (error) {
-        console.error("Error fetching scholarships:", error);
-      }
-    };
-  
-    fetchNewScholarships();
-  }, []);
+    if (open) {
+      fetchCaptcha();
+    }
+  }, [open]);
 
-  // Pie chart data
-  const pieData = {
-    labels: ["Accepted", "Pending", "Rejected"],
-    datasets: [
-      {
-        data: [
-          applicationData.accepted,
-          applicationData.pending,
-          applicationData.rejected,
-        ],
-        backgroundColor: ["#4caf50", "#ffeb3b", "#f44336"],
-      },
-    ],
+  const fetchCaptcha = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get('scholarshipmanagementbackend-production.up.railway.app/api/captcha');
+      const { num1, num2, answer } = response.data;
+      setCaptchaQuestion(`${num1} + ${num2}`);
+      setCaptchaAnswer(answer);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching CAPTCHA:', error);
+      setIsLoading(false);
+    }
   };
 
-  // Logout function
-  const handleLogout = () => {
-    // Clear session information
-    localStorage.removeItem("username");
-    localStorage.removeItem("authToken");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Redirect to the index page (login page)
-    navigate("/", { replace: true });
+    if (!captcha || parseInt(captcha) !== captchaAnswer) {
+      setErrorMessage('Invalid CAPTCHA. Please try again.');
+      return;
+    }
 
-    // Reload the page to reset the UI state
-    window.location.reload();
+    try {
+      const loginData = {
+        username: username,
+        password: password,
+      };
+
+      const response = await axios.post('http://localhost:8080/api/users/login', loginData);
+
+      if (response.status === 200) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', response.data.role);
+
+        if (response.data.role === 'ADMIN') {
+          navigate('/admin-dashboard');
+        } else if (response.data.role === 'USER') {
+          navigate('/user-dashboard');
+        }
+        setIsLoginSuccess(true);
+        setOpen(false);
+      }
+    } catch (error) {
+      setErrorMessage('Login failed. Please check your credentials and CAPTCHA.');
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    try {
+      const googleData = { token: response.credential };
+
+      const googleResponse = await axios.post(
+        'http://localhost:8080/api/users/google-login',
+        googleData
+      );
+
+      if (googleResponse.status === 200) {
+        const { username, role } = googleResponse.data;
+
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', role);
+
+        if (role === 'ADMIN') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/user-dashboard');
+        }
+        setIsLoginSuccess(true);
+        setOpen(false);
+      }
+    } catch (error) {
+      setErrorMessage('Google Login failed. Please try again.');
+    }
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
-  <CssBaseline />
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>
+          <Typography variant="h5" align="center">Login</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-  {/* Sidebar */}
-  <Box
-    sx={{
-      width: 240,
-      backgroundColor: "#12232E",
-      color: "#FFFFFF",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start", // Align from the top
-    }}
-  >
-    {/* Navigation Links */}
-    <Box sx={{ paddingTop: "16px" }}>
-      <Typography
-        variant="h6"
-        sx={{
-          textAlign: "center",
-          padding: "16px 0",
-          fontWeight: "bold",
-          backgroundColor: "#203647",
-          fontSize: "18px",
-          letterSpacing: "1px",
-        }}
-      >
-        Scholarship Management System
-      </Typography>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/dashboard">
-            <ListItemIcon>
-              <DashboardIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/scholarships">
-            <ListItemIcon>
-              <SchoolIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="View Schemes" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/application-history">
-            <ListItemIcon>
-              <HistoryIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="Application History" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/profile">
-            <ListItemIcon>
-              <AccountCircleIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/settings">
-            <ListItemIcon>
-              <SettingsIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </Box>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <Box sx={{ mt: 2, textAlign: 'center' }}>
+                <Typography variant="h6">{captchaQuestion}</Typography>
+              </Box>
+            )}
 
-    {/* Logout Button */}
-    <Box sx={{ marginTop: "auto" }}>
-      <Divider sx={{ backgroundColor: "#CCCCCC" }} />
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout}>
-            <ListItemIcon>
-              <LogoutIcon sx={{ color: "#FFFFFF" }} />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </Box>
-  </Box>
+            <TextField
+              label="Enter CAPTCHA"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={captcha}
+              onChange={(e) => setCaptcha(e.target.value)}
+            />
 
-  {/* Main Content Area */}
-  <Box
-    sx={{
-      flexGrow: 1,
-      backgroundColor: "#EEEEEE",
-      padding: "24px",
-      overflow: "auto",
-    }}
-  >
-    <Typography variant="h4" gutterBottom>
-      Welcome to Your Dashboard
-    </Typography>
-    <Typography variant="body1" gutterBottom>
-      Use the navigation menu to explore available scholarships, check your
-      application history, update your profile, or modify settings.
-    </Typography>
+            {errorMessage && (
+              <Box sx={{ mt: 2 }}>
+                <Typography color="error" variant="body2">{errorMessage}</Typography>
+              </Box>
+            )}
 
-    {/* Example Button */}
-    <Button
-      variant="contained"
-      color="primary"
-      sx={{ marginTop: "16px" }}
-      component={Link}
-      to="/scholarships"
-    >
-      View Scholarships
-    </Button>
-  </Box>
-</Box>
+            <DialogActions>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Login
+              </Button>
+            </DialogActions>
+          </form>
 
+          <Box sx={{ textAlign: 'center', mt: 3 }}>
+            <Typography variant="body2" color="textSecondary">
+              OR
+            </Typography>
+          </Box>
+
+          <Box sx={{ textAlign: 'center', mt: 2 }}>
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={() => setErrorMessage('Google Login failed. Please try again.')}
+            />
+          </Box>
+
+          <Box sx={{ textAlign: 'center', mt: 2 }}>
+            <Typography variant="body2" color="textSecondary">
+              Not registered?{' '}
+              <Button color="primary" onClick={() => navigate('/signup')}>
+                Sign up
+              </Button>
+            </Typography>
+          </Box>
+        </DialogContent>
+
+        <Snackbar
+          open={isLoginSuccess}
+          autoHideDuration={4000}
+          onClose={() => setIsLoginSuccess(false)}
+        >
+          <Alert onClose={() => setIsLoginSuccess(false)} severity="success" sx={{ width: '100%' }}>
+            Login Successful!
+          </Alert>
+        </Snackbar>
+      </Dialog>
+    </GoogleOAuthProvider>
   );
 };
 
-export default UserDashboard;
+export default LoginPage;
