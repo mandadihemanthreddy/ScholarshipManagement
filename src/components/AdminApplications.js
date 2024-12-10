@@ -56,8 +56,8 @@ const AdminApplications = () => {
 
     try {
       // Fetch the full application details including proofs
-      const appResponse = await axios.get(`http://localhost:8080/api/scholarship/applications/${application.id}`);
-      const proofsResponse = await axios.get(`http://localhost:8080/api/files/${application.username}`);
+      const appResponse = await axios.get(`https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/applications/${application.id}`);
+      const proofsResponse = await axios.get(`https://scholarshipmanagementbackend-production.up.railway.app//api/files/${application.username}`);
 
       // Set application data with proofs
       setSelectedApplication({
@@ -78,7 +78,7 @@ const AdminApplications = () => {
 
     try {
       await axios.put(
-        `http://localhost:8080/api/scholarship/applications/${selectedApplication.id}`,
+        `https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/applications/${selectedApplication.id}`,
         null,
         {
           params: { status, remarks },
@@ -124,7 +124,7 @@ const AdminApplications = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/upload-document', formData, {
+      const response = await axios.post('https://scholarshipmanagementbackend-production.up.railway.app/api/upload-document', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
