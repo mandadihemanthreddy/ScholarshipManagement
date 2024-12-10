@@ -36,7 +36,7 @@ const LoginPage = ({ open, setOpen }) => {
   const fetchCaptcha = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('scholarshipmanagementbackend-production.up.railway.app/api/captcha');
+      const response = await axios.get('http://scholarshipmanagementbackend-production.up.railway.app/api/captcha');
       const { num1, num2, answer } = response.data;
       setCaptchaQuestion(`${num1} + ${num2}`);
       setCaptchaAnswer(answer);
@@ -61,7 +61,7 @@ const LoginPage = ({ open, setOpen }) => {
         password: password,
       };
 
-      const response = await axios.post('http://localhost:8080/api/users/login', loginData);
+      const response = await axios.post('https://scholarshipmanagementbackend-production.up.railway.appapi/users/login', loginData);
 
       if (response.status === 200) {
         localStorage.setItem('username', username);
