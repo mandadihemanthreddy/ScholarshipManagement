@@ -11,7 +11,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/profile/${username}`);
+        const response = await axios.get(`https://scholarshipmanagementbackend-production.up.railway.app/api/users/profile/${username}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
