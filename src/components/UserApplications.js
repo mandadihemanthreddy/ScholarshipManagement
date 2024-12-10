@@ -18,7 +18,7 @@ const UserApplications = () => {
     }
 
     axios
-      .get(`http://localhost:8080/api/scholarship/applications/username/${username}`)
+      .get(`https://scholarshipmanagementbackend-production.up.railway.app/api/scholarship/applications/username/${username}`)
       .then((response) => {
         setApplications(response.data);
         setLoading(false);
